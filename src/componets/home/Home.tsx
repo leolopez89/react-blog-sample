@@ -24,6 +24,7 @@ export function Home() {
     const [openCreator, setOpenCreator] = useState(false)
 
     const [page, setPage] = useState(1)
+    const [pageCount, setPageCount] = useState(1)
 
     const defaultMessage: Message = {
         title: "",
@@ -35,7 +36,8 @@ export function Home() {
     const fetchUsers = useCallback(
         async () => {
             const results = await network.fetchUsers(page);
-            setUsers(results)
+            setUsers(results.users)
+            setPageCount(results.pages)
         },
         [page]
     );
@@ -96,7 +98,7 @@ export function Home() {
                     )}
                 </Grid>
             </main>
-            <Footer description={""} title={""} onChangePage={setPage} />
+            <Footer title={""} pages={pageCount} onChangePage={setPage} />
 
             <ConfirmDialog
                 isOpen={open}

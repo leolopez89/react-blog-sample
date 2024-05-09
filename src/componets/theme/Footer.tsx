@@ -19,13 +19,13 @@ function Copyright() {
 }
 
 interface FooterProps {
-  description: string;
   title: string;
+  pages: number;
   onChangePage: (page: number) => void
 }
 
 export default function Footer(props: FooterProps) {
-  const { description, title, onChangePage } = props;
+  const { pages, title, onChangePage } = props;
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     console.log(page)
@@ -42,20 +42,12 @@ export default function Footer(props: FooterProps) {
         justifyContent="center"
       >
         <Grid item xs={3}>
-          <Pagination count={10} size="medium" onChange={handleChangePage} />
+          <Pagination count={pages} size="medium" onChange={handleChangePage} />
         </Grid>
       </Grid>
       <Container maxWidth="lg">
         <Typography variant="h6" align="center" gutterBottom>
           {title}
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          {description}
         </Typography>
         <Copyright />
       </Container>

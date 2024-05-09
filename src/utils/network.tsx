@@ -1,22 +1,26 @@
 import { Post } from "../models/post";
-import { User } from "../models/users";
+import { User, UserResponse } from "../models/users";
 
 export const network = {
     fetchUsers, fetchPosts, deleteUser, createUser
 }
 
-async function fetchUsers(page: number = 1): Promise<User[]> {
+async function fetchUsers(page: number = 1): Promise<UserResponse> {
 
     try {
         const results = await fetch("https://gorest.co.in/public/v2/users?page=" + page);
         if (results.ok) {
             const json = await results.json();
-            return json;
+            const pages = results.headers.get("x-pagination-pages") ?? "1"
+            return {
+                pages: parseInt(pages),
+                users: json
+            };
         }
     } catch (error) {
         console.error("Error fetching users", error)
     }
-    return [];
+    return { pages: 1, users: [] };
 }
 
 async function fetchPosts(id: string): Promise<Post[]> {

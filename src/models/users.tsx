@@ -5,3 +5,8 @@ export interface User {
     gender: string
     status: string
 }
+
+export interface UserResponse {
+    pages: number;
+    users: User[];
+}
