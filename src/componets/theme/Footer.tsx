@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { Grid, Pagination } from '@mui/material';
 
 function Copyright() {
   return (
@@ -20,13 +21,30 @@ function Copyright() {
 interface FooterProps {
   description: string;
   title: string;
+  onChangePage: (page: number) => void
 }
 
 export default function Footer(props: FooterProps) {
-  const { description, title } = props;
+  const { description, title, onChangePage } = props;
+
+  const handleChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
+    console.log(page)
+    onChangePage(page);
+  }
 
   return (
     <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Grid item xs={3}>
+          <Pagination count={10} size="medium" onChange={handleChangePage} />
+        </Grid>
+      </Grid>
       <Container maxWidth="lg">
         <Typography variant="h6" align="center" gutterBottom>
           {title}

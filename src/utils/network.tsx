@@ -5,10 +5,10 @@ export const network = {
     fetchUsers, fetchPosts, deleteUser, createUser
 }
 
-async function fetchUsers(): Promise<User[]> {
+async function fetchUsers(page: number = 1): Promise<User[]> {
 
     try {
-        const results = await fetch("https://gorest.co.in/public/v2/users");
+        const results = await fetch("https://gorest.co.in/public/v2/users?page=" + page);
         if (results.ok) {
             const json = await results.json();
             return json;

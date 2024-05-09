@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { User } from "../../models/users";
 import { network } from "../../utils/network";
 import ConfirmDialog from "../theme/ConfirmDialog";
@@ -23,6 +23,8 @@ export function Home() {
 
     const [openCreator, setOpenCreator] = useState(false)
 
+    const [page, setPage] = useState(1)
+
     const defaultMessage: Message = {
         title: "",
         open: false,
@@ -30,10 +32,13 @@ export function Home() {
     }
     const [message, setMessage] = useState(defaultMessage);
 
-    async function fetchUsers() {
-        const results = await network.fetchUsers();
-        setUsers(results)
-    }
+    const fetchUsers = useCallback(
+        async () => {
+            const results = await network.fetchUsers(page);
+            setUsers(results)
+        },
+        [page]
+    );
 
     const handleClickOpen = (id: number) => {
         setUserToRemove(id)
@@ -76,7 +81,9 @@ export function Home() {
             initailized.current = true;
             fetchUsers();
         }
-    }, []);
+    }, [fetchUsers]);
+
+    useMemo(() => fetchUsers(), [fetchUsers, page])
 
     return (
         <>
@@ -88,7 +95,7 @@ export function Home() {
                     )}
                 </Grid>
             </main>
-            <Footer description={""} title={""} />
+            <Footer description={""} title={""} onChangePage={setPage} />
 
             <ConfirmDialog
                 isOpen={open}
