@@ -83,6 +83,7 @@ export function Home() {
         }
     }, [fetchUsers]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useMemo(() => fetchUsers(), [fetchUsers, page])
 
     return (
