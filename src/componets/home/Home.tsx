@@ -88,7 +88,7 @@ export function Home() {
                     )}
                 </Grid>
             </main>
-            <Footer description={"sadasdas"} title={"sadsadsad"} />
+            <Footer description={""} title={""} />
 
             <ConfirmDialog
                 isOpen={open}
